@@ -13,7 +13,6 @@ int sc_main(int argc, char *argv[])
    print_terminal(sc_logic(2));
    print_terminal(sc_logic(3));
 
-
    print_terminal(sc_logic('0'));
    print_terminal(sc_logic('1'));
    print_terminal(sc_logic('2'));
