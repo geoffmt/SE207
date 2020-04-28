@@ -1,9 +1,10 @@
 #include <systemc.h>
 
-
-void print_terminal(sc_logic x){
-   cout << x << endl;
-}
+#define print_terminal(x)           \
+   do                               \
+   {                                \
+      cout << #x ": " << x << endl; \
+   } while (0)
 
 int sc_main(int argc, char *argv[])
 {
@@ -18,7 +19,7 @@ int sc_main(int argc, char *argv[])
    print_terminal(sc_logic('2'));
    print_terminal(sc_logic('3'));
    print_terminal(sc_logic('w'));
- 
+
    print_terminal(sc_logic('x'));
    print_terminal(sc_logic('z'));
    print_terminal(sc_logic('X'));
@@ -28,7 +29,7 @@ int sc_main(int argc, char *argv[])
    print_terminal(sc_logic(false));
 
    sc_logic l_0;
-   l_0 = 0; 
+   l_0 = 0;
    sc_logic l_1;
    l_1 = 1;
    sc_logic l_x;
