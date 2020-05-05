@@ -19,6 +19,6 @@ int sc_main(int argc, char *argv[])
     print_terminal(sc_int<4>(sc_lv<4>("0101")));
 
     print_terminal(sc_bv<4>(sc_int<4>(sc_lv<4>("xxxx"))));
-    print_terminal(sc_bv<4>(sc_int<4>(sc_lv<4>("01xz")))); 
+    print_terminal(sc_bv<4>(sc_int<4>(sc_lv<4>("01xz"))));
     return 0;
 }

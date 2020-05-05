@@ -1,4 +1,4 @@
 .DS_Store
-hello
-hello.DSYm
+*.dSYM
 .vscode
+*.o

@@ -11,8 +11,8 @@ LINK.o = $(CXX) $(LDFLAGS) $(TARGET_ARCH)
 
 all:$(TARGET)
 
-$(TARGET):$(DEPS)
 
 clean:
 	rm -f $(TARGET)
 	rm -f $(DEPS)
+
