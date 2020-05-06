@@ -2,6 +2,18 @@
 
 int sc_main(int argc, char *argv[])
 {
+    if (argc < 2)
+    {
+        cout << "Missing argument N" << endl;
+    }
+
+    int N = std::stoi(argv[1]);
+
+    if (N > 255)
+    {
+        cout << "Error : N should be smaller than 255 !" << endl;
+    }
+
     // Un pointeur sur l'objet qui permet de gérer les traces
     sc_trace_file *trace_f;
 
@@ -12,7 +24,8 @@ int sc_main(int argc, char *argv[])
     // On peut aussi préciser l'unité de temps dans le fichier vcd
     trace_f->set_time_unit(1, SC_NS);
 
-    bool t = false;
+    sc_int<8> t = 0;
+    sc_int<1> cpt = 1;
 
     // Ajoute la variable t aux éléments à tracer
     // Les arguments de la fonction sont:
@@ -22,12 +35,11 @@ int sc_main(int argc, char *argv[])
     sc_trace(trace_f, t, "t");
 
     // La simulation
-    sc_start(10, SC_NS);
-    t = !t;
-    sc_start(10, SC_NS);
-    t = !t;
-    sc_start(10, SC_NS);
-    t = !t;
+    for (int i = 0; i < N; i++)
+    {
+        sc_start(10, SC_NS);
+        t += cpt;
+    }
     sc_start(10, SC_NS);
 
     // Ferme le fichier de trace
