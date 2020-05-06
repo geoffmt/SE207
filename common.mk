@@ -15,4 +15,5 @@ all:$(TARGET)
 clean:
 	rm -f $(TARGET)
 	rm -f $(DEPS)
+	rm -f *.vcd
 
