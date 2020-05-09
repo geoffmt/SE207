@@ -45,46 +45,45 @@ SC_MODULE(PGCD_MOD)
     {
         sc_uint<8> tmp;
 
-        for (;;) // maintien du thread en vie
+        if (b > a)
         {
-
+            tmp = b;
+            b = a;
+            a = tmp;
+        }
+        while (b != 0)
+        {
+            a -= b;
+            wait();
             if (b > a)
             {
-                tmp = b;
-                b = a;
-                a = tmp;
-            }
-            while (b != 0)
-            {
-                a -= b;
                 wait();
-                if (b > a)
-                {
-                    wait();
-                    tmp = a;
-                    wait();
-                    a = b;
-                    wait();
-                    b = tmp;
-                    wait();
-                }
+                tmp = a;
+                wait();
+                a = b;
+                wait();
+                b = tmp;
+                wait();
             }
         }
+    
         return a;
     }
 
     void mthread()
     {
-        ready = 0;
-        // Attendre que les entrées soient prêtes
-        while (!valid)
-        {
+        while(1){ // on garde le thread en vie
+            ready = 0;
+            // Attendre que les entrées soient prêtes
+            while (!valid)
+            {
+                wait();
+            }
+            // Exécuter la fonction pgcd
+            PGCD = pgcd(A, B);
+            ready = 1;
             wait();
         }
-        // Exécuter la fonction pgcd
-        PGCD = pgcd(A, B);
-        ready = 1;
-        wait();
     }
 
     SC_CTOR(PGCD_MOD)
@@ -104,7 +103,7 @@ SC_MODULE(PGCD_RTL)
 
     sc_signal< sc_uint<8> > max;
     sc_signal< sc_uint<8> > min;
-    sc_signal<bool> state_computed; // variable qui permet de savoie si le calcul est terminé 
+    sc_signal<bool> state_computed; // variable qui permet de savoir si le calcul est terminé 
 
     void mthread()
     {
