@@ -63,7 +63,6 @@ SC_MODULE(SUM_METH)
 
     SC_CTOR(SUM_METH)
     {
-
         SC_METHOD(sum);
         sensitive << p1 << p2;
     }
