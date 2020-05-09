@@ -164,7 +164,8 @@ int sc_main(int argc, char *argv[])
     sc_signal<bool> valid, ready;
     sc_signal< sc_uint<8> > A, B, PGCD;
 
-    /**
+
+
     PGCD_MOD pgcd_mod("PGCD_MOD");
     pgcd_mod.clk(clk);
     pgcd_mod.valid(valid);
@@ -173,7 +174,7 @@ int sc_main(int argc, char *argv[])
     pgcd_mod.B(B);
     pgcd_mod.PGCD(PGCD);
 
-**/
+/**
     PGCD_RTL pgcd_rtl("PGCD_RTL");
     pgcd_rtl.clk(clk);
     pgcd_rtl.valid(valid);
@@ -181,28 +182,28 @@ int sc_main(int argc, char *argv[])
     pgcd_rtl.A(A);
     pgcd_rtl.B(B);
     pgcd_rtl.PGCD(PGCD);
-
+**/
     
     sc_trace_file *trace_f;
     trace_f = sc_create_vcd_trace_file("my_simu_trace");
     trace_f->set_time_unit(100, SC_PS);
 
-    /**
+
     sc_trace(trace_f, clk, pgcd_mod.clk.name());
     sc_trace(trace_f, valid, pgcd_mod.valid.name());
     sc_trace(trace_f, ready, pgcd_mod.ready.name());
     sc_trace(trace_f, A, pgcd_mod.A.name());
     sc_trace(trace_f, B, pgcd_mod.B.name());
     sc_trace(trace_f, PGCD, pgcd_mod.PGCD.name());
-    **/
 
+   /**
     sc_trace(trace_f, clk, pgcd_rtl.clk.name());
     sc_trace(trace_f, valid, pgcd_rtl.valid.name());
     sc_trace(trace_f, ready, pgcd_rtl.ready.name());
     sc_trace(trace_f, A, pgcd_rtl.A.name());
     sc_trace(trace_f, B, pgcd_rtl.B.name());
     sc_trace(trace_f, PGCD, pgcd_rtl.PGCD.name());
-
+**/
 
     valid = 0;
 
