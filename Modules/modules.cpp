@@ -46,8 +46,6 @@ int sc_main(int argc, char *argv[])
     foob.i(clk1);
     foob.o(o);
 
-
-    
     sc_trace_file *trace_f;
     trace_f = sc_create_vcd_trace_file("my_simu_trace");
     trace_f->set_time_unit(100, SC_PS);
@@ -61,8 +59,6 @@ int sc_main(int argc, char *argv[])
     sc_trace(trace_f, foob.bar_i.i, foob.bar_i.i.name());
     sc_trace(trace_f, foob.bar_i.o, foob.bar_i.o.name());
     sc_trace(trace_f, o, o.name());
-
-
 
     sc_start(100, SC_NS);
     sc_close_vcd_trace_file(trace_f);
