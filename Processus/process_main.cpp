@@ -1,3 +1,4 @@
+
 #include <systemc.h>
 
 // un type utilisateur
@@ -85,7 +86,7 @@ SC_MODULE(SUM_TH)
 
     SC_CTOR(SUM_TH)
     {
-        SC_METHOD(sum);
+        SC_THREAD(sum);
         sensitive << p1 << p2;
     }
 };
