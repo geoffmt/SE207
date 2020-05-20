@@ -60,6 +60,10 @@ SC_MODULE(SUM_METH)
     void sum()
     {
         p_out = p1.read() + p2.read();
+        // somme saturante
+        if (p_out.read() == Pixel(0, 0, 0) && (~(p1.read()==Pixel(0, 0, 0) && p2.read()==Pixel(0, 0, 0)))){
+            p_out = Pixel(255, 255, 255);
+        }
     }
 
     SC_CTOR(SUM_METH)
@@ -80,6 +84,10 @@ SC_MODULE(SUM_TH)
         while (1)
         {
             p_out = p1.read() + p2.read();
+            // somme saturante
+            if (p_out.read() == Pixel(0, 0, 0) && (~(p1.read()==Pixel(0, 0, 0) && p2.read()==Pixel(0, 0, 0)))){
+                    p_out = Pixel(255, 255, 255);
+            }
             wait();
         }
     }

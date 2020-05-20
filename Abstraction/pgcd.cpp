@@ -6,9 +6,9 @@
         cout << #x ": " << x << endl; \
     } while (0)
 
-unsigned short pgcd(unsigned short a, unsigned short b)
+unsigned int pgcd(unsigned int a, unsigned int b)
 {
-    unsigned short tmp = 0;
+    unsigned int tmp = 0;
 
     if (b > a)
     {
@@ -39,7 +39,7 @@ SC_MODULE(PGCD_MOD)
     sc_in< sc_uint<8> > A;
     sc_in< sc_uint<8> > B;
     sc_out<bool> ready;
-    sc_out< sc_uint<8> > PGCD;
+    sc_out<sc_uint<8>  > PGCD;
 
     sc_uint<8> pgcd(sc_uint<8> a, sc_uint<8> b)
     {
@@ -86,7 +86,7 @@ SC_MODULE(PGCD_MOD)
         }
     }
 
-    SC_CTOR(PGCD_MOD)
+    SC_CTOR(PGCD_MOD):clk("CLK"), valid("valid"), A("A"), B("B"), ready("ready"), PGCD("PGCD")
     {
         SC_CTHREAD(mthread, clk.pos());
     }
@@ -109,13 +109,17 @@ SC_MODULE(PGCD_RTL)
     {
         PGCD = max;
 
-        if ((min == sc_uint<8>(0))) // calcul terminé le pgcd est trouvé
+        if ((min == sc_uint<8>(0)) & state_computed) // calcul terminé le pgcd est trouvé
         {
             ready = 1;
+            state_computed = 0;
         }
         else
         {
             ready = 0;
+            if (valid){
+                state_computed=1;
+            }
         }
 
         sc_uint<8> tmp;
@@ -147,7 +151,7 @@ SC_MODULE(PGCD_RTL)
         }
     }
 
-    SC_CTOR(PGCD_RTL)
+    SC_CTOR(PGCD_RTL):clk("CLK"), valid("valid"), A("A"), B("B"), ready("ready"), PGCD("PGCD")
     {
         state_computed = 0;
         SC_METHOD(mthread);
@@ -163,6 +167,7 @@ int sc_main(int argc, char *argv[])
     sc_signal<bool> valid, ready;
     sc_signal< sc_uint<8> > A, B, PGCD;
 
+    int PERIOD = 5;
 
     /**
     PGCD_MOD pgcd_mod("PGCD_MOD");
@@ -206,7 +211,7 @@ int sc_main(int argc, char *argv[])
 
     valid = 0;
 
-    sc_start(10, SC_NS);
+    sc_start(30, SC_NS);
     
     for (unsigned int a = 0; a <= 255; a++)
     {
@@ -215,13 +220,13 @@ int sc_main(int argc, char *argv[])
             A = a;
             B = b;
             valid = 1; // Les données sont prêtes
-            sc_start(30, SC_NS);
+            sc_start(PERIOD, SC_NS);
             valid = 0;
 
             // On avance dans la simulation tant que le thread n'a pas terminé le calcul
             while (!ready)
             {
-                sc_start(5, SC_NS);
+                sc_start(PERIOD, SC_NS);
             }
 
             // On affiche le résultat
@@ -229,13 +234,15 @@ int sc_main(int argc, char *argv[])
             print_terminal(b);
             print_terminal(PGCD);
             print_terminal(pgcd(a, b));
+
+            sc_start(PERIOD, SC_NS);
         }
     }
 
 
     cout << "Fin des tests" << endl;
 
-    sc_start(100, SC_NS);
+    sc_start(30, SC_NS);
     sc_close_vcd_trace_file(trace_f);
 
     return 0;
