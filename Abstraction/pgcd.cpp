@@ -1,4 +1,5 @@
 #include <systemc.h>
+#include "obj_dir/Vpgcd_verilog.h"
 
 #define print_terminal(x)             \
     do                                \
