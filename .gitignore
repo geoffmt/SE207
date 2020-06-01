@@ -2,4 +2,7 @@
 *.dSYM
 .vscode
 *.o
+*.x
+.*.d
 *.vcd
+
