@@ -1,20 +1,5 @@
-/*******************************************************************************
- * File   : video_in.h
- * Author : Alexis Polti/Tarik Graba
- * Date   : 2008-2016
- * This program is released under the GNU Public License
- * Copyright : Télécom ParisTECH
- *
- * Ce module modélise le fonctionnement d'une source vidéo.
- *
- * On lui donne un nom de base (ex:"img_src_"), et il transmet successivement
- * img_src_0.png, img_src_1.png, etc. S'il ne trouve pas une image, il
- * recommence à l'index 0.
- *
- ******************************************************************************/
-
-#ifndef VIDEO_IN_H
-#define VIDEO_IN_H
+#ifndef VIDEO_OUT_H
+#define VIDEO_OUT_H
 
 #include <systemc.h>
 #include "image.h"
@@ -22,54 +7,51 @@
 /***************************************
  *  définition du module
  **************************************/
-SC_MODULE(VIDEO_IN) {
+SC_MODULE(VIDEO_OUT) {
 
    // IO PORTS
    sc_in<bool>         clk;
    sc_in<bool>         reset_n;
 
-   sc_out<bool>        href;
-   sc_out<bool>        vref;
+   sc_in<bool>        href;
+   sc_in<bool>        vref;
 
-   sc_out<unsigned char> pixel_out;
+   sc_in<unsigned char> pixel_in;
 
    /***************************************************
     *  constructeur
     **************************************************/
-   VIDEO_IN(sc_module_name n, const std::string & b_n = "wallace"):
-      sc_module(n),
-      base_name(b_n)
+   VIDEO_OUT(sc_module_name n, const std::string & b_n = "wallace"): sc_module(n), base_name(b_n + "_out")
    {
       cout << "Instanciation de " << name() <<" ..." ;
 
-      SC_THREAD (gen_sorties);
+      SC_THREAD (accept_image);
       sensitive << clk.pos();
       async_reset_signal_is(reset_n,false);
       dont_initialize();
 
       current_image_number = 0;
-      reset_done  = false;
-      image.pixel = NULL;
-      read_image();
+      image.height = HEIGHT;
+      image.width = WIDTH;
+      image.pixel = new unsigned char[HEIGHT * WIDTH];
 
       cout << "... réussie" << endl;
    }
 
-   SC_HAS_PROCESS(VIDEO_IN);
+   SC_HAS_PROCESS(VIDEO_OUT);
 
    /***************************************************
     *  méthodes et champs internes
     **************************************************/
    private:
 
-   void gen_sorties();
-   void read_image();
+   void accept_image();
+   void output_image();
 
    const std::string   base_name;              // nom de base des images d'entrée
    int                 current_image_number;   // numéro de l'image courante
-   bool                reset_done;
+   int                 current_index;
    bool                old_vref;
-
 
    Image               image;
 
@@ -81,4 +63,3 @@ SC_MODULE(VIDEO_IN) {
 };
 
 #endif
-
