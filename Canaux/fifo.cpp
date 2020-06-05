@@ -98,14 +98,16 @@ SC_MODULE(WRITER_METHOD)
     Pixel pixel;
 
     void write()
-    {
-
+    {   
         if (cycles == 0)
-        {
-            i++;
-            cout << "Time: " << sc_time_stamp() << endl;
-            cout << "Write: " << pixel << endl;
-            pixel = pixel.increment();
+        {   
+            out_ack = out.nb_write(pixel);
+            if (out_ack){
+                i++;
+                cout << "Time: " << sc_time_stamp() << endl;
+                cout << "Write: " << pixel << endl;
+                pixel = pixel.increment();
+            }
             if (i == 100)
             {
                 cycles = rand() % 32;
