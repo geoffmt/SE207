@@ -30,6 +30,7 @@ clean :
 	-rm -f *.vcd
 	-rm -f *~ *_old
 	-rm -f core
+	-rm -f output_wallace*
 
 .%.d:%.c
 	$(CC) $(CPPFLAGS) -MM -MF $@ -MT $(patsubst %.c,%.o,$<) $<

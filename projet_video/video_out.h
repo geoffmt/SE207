@@ -21,11 +21,11 @@ SC_MODULE(VIDEO_OUT) {
    /***************************************************
     *  constructeur
     **************************************************/
-   VIDEO_OUT(sc_module_name n, const std::string & b_n = "wallace"): sc_module(n), base_name(b_n + "_out")
+   SC_CTOR(VIDEO_OUT):base_name("output_wallace")
    {
       cout << "Instanciation de " << name() <<" ..." ;
 
-      SC_THREAD (accept_image);
+      SC_METHOD (accept_image);
       sensitive << clk.pos();
       async_reset_signal_is(reset_n,false);
       dont_initialize();
@@ -38,7 +38,12 @@ SC_MODULE(VIDEO_OUT) {
       cout << "... réussie" << endl;
    }
 
-   SC_HAS_PROCESS(VIDEO_OUT);
+   /***************************************************
+    *  destructeur
+    **************************************************/
+   ~VIDEO_OUT() {
+      delete[] image.pixel;
+   }
 
    /***************************************************
     *  méthodes et champs internes
@@ -50,7 +55,7 @@ SC_MODULE(VIDEO_OUT) {
 
    const std::string   base_name;              // nom de base des images d'entrée
    int                 current_image_number;   // numéro de l'image courante
-   int                 current_index;
+   int                 current_pixel;
    bool                old_vref;
 
    Image               image;
