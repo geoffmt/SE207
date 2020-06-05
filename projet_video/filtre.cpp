@@ -19,6 +19,7 @@ void FILTER_MOY::receive_image()
 
         buffer[current_pixel] = p_in;
         current_pixel++;
+        current_pixel %= BUF_SIZE;
     }
 
     old_vref = v_in;
@@ -39,7 +40,7 @@ int FILTER_MOY::mean_compute(int x, int y){
         }
     }
 
-    return res;
+    return res/9;
 
 }
 
