@@ -56,14 +56,12 @@ void FILTER_MOY::send_moy()
 
     while (1)
     {
-
-        // buffer not ready, there is not 3 lines in it
+        // buffer not ready
         while (current_pixel < WIDTH + 2)
             wait();
 
         for (int y = 0; y < HEIGHT; y++)
         {
-
             // maj de v_out
             if (y < 3)
             {

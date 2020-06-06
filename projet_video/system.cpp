@@ -14,6 +14,7 @@
 #include "video_in.h"
 #include "video_out.h"
 #include "filtre.h"
+#include "zoom.h"
 
 /***************************************************
  *	MAIN
@@ -45,8 +46,8 @@ int sc_main (int argc, char *argv[])
     sc_clock                        signal_clk("Clock", pix_period);
     sc_signal<bool>                 signal_resetn;
 
-    sc_signal<bool>                 signal_vref0, signal_href0, signal_vref1, signal_href1;
-    sc_signal<unsigned char>        signal_pixel0, signal_pixel1;
+    sc_signal<bool>                 signal_vref0, signal_href0, signal_vref1, signal_href1, signal_vref2, signal_href2;
+    sc_signal<unsigned char>        signal_pixel0, signal_pixel1, signal_pixel2;
 
     /********************************************************
      *	Instanciation des modules
@@ -54,7 +55,8 @@ int sc_main (int argc, char *argv[])
 
     VIDEO_IN video_in("VIDEO_GEN");
     VIDEO_OUT video_out("VIDEO_OUTPUT");
-    FILTER_MOY filter("FILTER_MOY");
+    //FILTER_MOY filter("FILTER_MOY");
+    ZOOM zoom("ZOOM_FILTER");
 
     /*********************************************************
      *	Connexion des composants
@@ -66,14 +68,14 @@ int sc_main (int argc, char *argv[])
     video_in.vref       (signal_vref0);
     video_in.pixel_out  (signal_pixel0);
 
-    filter.clk          (signal_clk);
-    filter.reset_n      (signal_resetn);
-    filter.h_in         (signal_href0);
-    filter.v_in         (signal_vref0);
-    filter.p_in         (signal_pixel0);
-    filter.h_out        (signal_href1);
-    filter.v_out        (signal_vref1);
-    filter.p_out        (signal_pixel1);
+    zoom.clk          (signal_clk);
+    zoom.reset_n      (signal_resetn);
+    zoom.h_in         (signal_href0);
+    zoom.v_in         (signal_vref0);
+    zoom.p_in         (signal_pixel0);
+    zoom.h_out        (signal_href1);
+    zoom.v_out        (signal_vref1);
+    zoom.p_out        (signal_pixel1);
 
     video_out.clk        (signal_clk);
     video_out.reset_n    (signal_resetn);
@@ -102,7 +104,7 @@ int sc_main (int argc, char *argv[])
     TRACE( signal_href0 );
     TRACE( signal_vref0 );
     TRACE( signal_pixel0 );
-    
+
     TRACE( signal_href1 );
     TRACE( signal_vref1 );
     TRACE( signal_pixel1 );
