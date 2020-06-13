@@ -25,7 +25,9 @@ SC_MODULE(ZOOM)
     *  constructeur
     **************************************************/
 
-    ZOOM(sc_module_name n) : sc_module(n)
+    ZOOM(sc_module_name n, int start_line, int start_col) : sc_module(n), 
+                                                           start_line(start_line),
+                                                           start_col(start_col)
     {
         cout << "Instanciation de " << name() << " ...";
 
@@ -49,7 +51,7 @@ private:
     void receive_image();
     void send_zoom();
 
-    int current_pixel;
+    int pixel_counter;
 
     // Pour ce projet les dimensions de l'image sont imposées
     static const int HEIGHT = 576;
@@ -58,6 +60,11 @@ private:
     static const int fWIDTH = WIDTH + 154;
 
     unsigned char buffer[HEIGHT / 2][WIDTH / 2];
+
+    int  start_line;
+    int  start_col;
+    int  end_line = start_line + HEIGHT/2;
+    int  end_col = start_col + WIDTH/2;
 };
 
 #endif

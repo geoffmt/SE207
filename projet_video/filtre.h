@@ -3,7 +3,7 @@
 
 #include <systemc.h>
 
-typedef unsigned char (*filter) (unsigned char *);
+typedef unsigned char (*filter)(unsigned char *);
 
 /***************************************
  *  définition du module
@@ -26,7 +26,6 @@ SC_MODULE(FILTER)
     /***************************************************
     *  constructeur
     **************************************************/
-    
 
     FILTER(sc_module_name n, filter f) : sc_module(n), f(f)
     {

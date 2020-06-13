@@ -5,22 +5,22 @@ void ZOOM::receive_image()
 
     if (!reset_n)
     {
-        current_pixel = 0;
+        pixel_counter = 0;
         cout << "module: " << name() << "... reset!" << endl;
         return;
     }
 
     if (h_in)
     {
-        int line = current_pixel / WIDTH;
-        int column = current_pixel % WIDTH;
+        int line = pixel_counter / WIDTH;
+        int column = pixel_counter % WIDTH;
 
         // on récupère les pixels du rectangle central à dupliquer
-        if (line > 144 && line < 433 && column > 180 && column < 541)
-            buffer[line-145][column-181] = p_in;
+        if (line >= start_line && line < end_line && column >= start_col && column < end_col)
+            buffer[line - start_line][column - start_col] = p_in;
 
-        current_pixel++;
-        current_pixel %= (WIDTH * HEIGHT);
+        pixel_counter++;
+        pixel_counter %= (WIDTH * HEIGHT);
     }
 }
 
@@ -33,7 +33,7 @@ void ZOOM::send_zoom()
     while (1)
     {
         // buffer not ready
-        while (current_pixel/WIDTH < 145)
+        while (pixel_counter / WIDTH < start_line)
             wait();
 
         for (int y = 0; y < HEIGHT; y++)
@@ -47,7 +47,7 @@ void ZOOM::send_zoom()
             for (int x = 0; x < WIDTH; x++)
             {
                 h_out = true;
-                p_out = buffer[y/2][x/2];
+                p_out = buffer[y / 2][x / 2];
                 wait();
             }
 

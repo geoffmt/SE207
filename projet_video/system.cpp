@@ -65,7 +65,7 @@ int sc_main (int argc, char *argv[])
     VIDEO_IN video_in("VIDEO_GEN");
     VIDEO_OUT video_out("VIDEO_OUTPUT");
     FILTER filter("FILTER", mean_compute);
-    ZOOM zoom("ZOOM_FILTER");
+    ZOOM zoom("ZOOM_FILTER", 0, 0);
 
     /*********************************************************
      *	Connexion des composants
