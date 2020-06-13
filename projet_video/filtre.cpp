@@ -1,7 +1,7 @@
 #include "filtre.h"
 #include <string>
 
-void FILTER_MOY::receive_image()
+void FILTER::receive_image()
 {
 
     if (!reset_n)
@@ -26,28 +26,8 @@ void FILTER_MOY::receive_image()
     old_vref = v_in;
 }
 
-int FILTER_MOY::mean_compute(int x, int y)
-{
 
-    // on se positionne au bon endroit dans le buffer
-    int initial_index = (y * WIDTH + x) % BUF_SIZE;
-    int res = 0;
-
-    // parcours des 3 lignes autour du pixel pour récupérer les bons pixels à moyenner
-    for (int i = 0; i < 3; i++)
-    {
-        for (int j = 0; j < 3; j++)
-        {
-            // on récupere les pixels tout autour du initial_index central
-            int index_to_add = (initial_index - ((1-i) * WIDTH) + (- 1 + j) + BUF_SIZE)%BUF_SIZE;
-            res += buffer[index_to_add];
-        }
-    }
-
-    return res / 9;
-}
-
-void FILTER_MOY::send_moy()
+void FILTER::send_moy()
 {
 
     h_out = false;
@@ -70,10 +50,24 @@ void FILTER_MOY::send_moy()
 
             for (int x = 0; x < WIDTH; x++)
             {
-                int res = mean_compute(x, y);
+                // on se positionne au bon endroit dans le buffer
+                int initial_index = (y * WIDTH + x) % BUF_SIZE;
+                unsigned char tab[9];
+
+                // parcours des 3 lignes autour du pixel pour récupérer les bons pixels à moyenner
+                for (int i = 0; i < 3; i++)
+                {
+                    for (int j = 0; j < 3; j++)
+                    {
+                        // on récupere les pixels tout autour du initial_index central
+                        int index_to_add = (initial_index - ((1-i) * WIDTH) + (- 1 + j) + BUF_SIZE)%BUF_SIZE;
+                        tab[3*i+j] = buffer[index_to_add];
+                    }
+                }
+
 
                 h_out = true;
-                p_out = res;
+                p_out = f(tab);
                 wait();
             }
 

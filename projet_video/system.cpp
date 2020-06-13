@@ -20,6 +20,15 @@
  *	MAIN
  **************************************************/
 
+unsigned char mean_compute(unsigned char * tab) {
+  int res = 0;
+  for (int i = 0; i < 9; i ++) {
+    res += tab[i];
+  }
+
+  return res / 9;
+}
+
 int sc_main (int argc, char *argv[])
 {
     int	ncycles;
@@ -55,7 +64,7 @@ int sc_main (int argc, char *argv[])
 
     VIDEO_IN video_in("VIDEO_GEN");
     VIDEO_OUT video_out("VIDEO_OUTPUT");
-    FILTER_MOY filter("FILTER_MOY");
+    FILTER filter("FILTER", mean_compute);
     ZOOM zoom("ZOOM_FILTER");
 
     /*********************************************************

@@ -3,10 +3,12 @@
 
 #include <systemc.h>
 
+typedef unsigned char (*filter) (unsigned char *);
+
 /***************************************
  *  définition du module
  **************************************/
-SC_MODULE(FILTER_MOY)
+SC_MODULE(FILTER)
 {
 
     // IO PORTS
@@ -26,7 +28,7 @@ SC_MODULE(FILTER_MOY)
     **************************************************/
     
 
-    FILTER_MOY(sc_module_name n) : sc_module(n)
+    FILTER(sc_module_name n, filter f) : sc_module(n), f(f)
     {
         cout << "Instanciation de " << name() << " ...";
 
@@ -42,7 +44,7 @@ SC_MODULE(FILTER_MOY)
         cout << "... réussie" << endl;
     }
 
-    SC_HAS_PROCESS(FILTER_MOY);
+    SC_HAS_PROCESS(FILTER);
     /***************************************************
     *  méthodes et champs internes
     **************************************************/
@@ -62,6 +64,8 @@ private:
     static const int BUF_SIZE = 3 * WIDTH;
 
     unsigned char buffer[BUF_SIZE];
+
+    filter f;
 };
 
 #endif
