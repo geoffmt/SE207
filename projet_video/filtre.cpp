@@ -7,6 +7,7 @@ void FILTER::receive_image()
     if (!reset_n)
     {
         current_pixel = 0;
+        buffer_ready = 0;
         old_vref = false;
 
         cout << "module: " << name() << "... reset!" << endl;
@@ -22,7 +23,7 @@ void FILTER::receive_image()
         current_pixel++;
         current_pixel %= BUF_SIZE;
     }
-
+    buffer_ready = (current_pixel >= WIDTH + 2);
     old_vref = v_in;
 }
 
@@ -37,7 +38,7 @@ void FILTER::send_moy()
     while (1)
     {
         // buffer not ready
-        while (current_pixel < WIDTH + 2)
+        while (!buffer_ready)
             wait();
 
         for (int y = 0; y < HEIGHT; y++)

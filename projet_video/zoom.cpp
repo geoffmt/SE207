@@ -22,6 +22,8 @@ void ZOOM::receive_image()
         pixel_counter++;
         pixel_counter %= (WIDTH * HEIGHT);
     }
+
+    buffer_ready = (pixel_counter / WIDTH >= start_line);
 }
 
 void ZOOM::send_zoom()
@@ -33,7 +35,7 @@ void ZOOM::send_zoom()
     while (1)
     {
         // buffer not ready
-        while (pixel_counter / WIDTH < start_line)
+        while (!buffer_ready)
             wait();
 
         for (int y = 0; y < HEIGHT; y++)

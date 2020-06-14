@@ -53,6 +53,7 @@ private:
     int mean_compute(int x, int y);
 
     int current_pixel;
+    bool buffer_ready;
     bool old_vref;
 
     // Pour ce projet les dimensions de l'image sont imposées

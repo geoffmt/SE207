@@ -52,6 +52,7 @@ private:
     void send_zoom();
 
     int pixel_counter;
+    bool buffer_ready;
 
     // Pour ce projet les dimensions de l'image sont imposées
     static const int HEIGHT = 576;
