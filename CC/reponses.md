@@ -37,6 +37,8 @@ Vous devez modifier ce fichier pour y inclure vos réponses puis l'ajouter à vo
 
    Concernant les entiers qui sont d'une taille classique (par exemple 8, 16, 32, 64) , il vaut mieux utiliser les structures de C++ ( par exemple `int`) qui implémentent plus efficacement les opérations arithmétiques.
 
+   
+
 ---
 
 ### Question 2
@@ -47,7 +49,17 @@ Vous devez modifier ce fichier pour y inclure vos réponses puis l'ajouter à vo
 
 ---
 
-...
+
+
+1. SystemC impose l'utilisation d'un type particulier parce que c'est un langage qui permet de simuler les affectations qui surviennent au bout d'un cycle. En C++ qui n'est pas un langage conçu pour la simulation, il n'y a pas de tel type car la plupart des personnes codant en C++ n'en auraient pas l'utilité. 
+
+2. C'est le type `sc_signal` qui permet de créer des signaux qui permettent les affectations différées. 
+
+   La structure de ce type est : `sc_signal<TYPE_DE_LA_VARIABLE>` donc ça peut être par exemple `sc_signal<bool>` que l'on utilise souvent en simulation.
+
+   
+
+
 
 ---
 
