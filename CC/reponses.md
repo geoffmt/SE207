@@ -57,7 +57,9 @@ Vous devez modifier ce fichier pour y inclure vos réponses puis l'ajouter à vo
 
    La structure de ce type est : `sc_signal<TYPE_DE_LA_VARIABLE>` donc ça peut être par exemple `sc_signal<bool>` que l'on utilise souvent en simulation.
 
-   
+   Pour mettre en oeuvre ces affectations il y a 3 fonctions. Les fonctions `read`, `write` et `update`. La fonction `read `permet de voir la valeur actuelle du signal. La fonction `write` permet de modifier la valeur future du signal (celle qui sera changée à la fin du cycle). Et la fonction `update` permet de mettre à jour la valeur actuelle qui prend la valeur de la valeur future.
+
+3. Cela est utile par exemple pour les signaux de contrôle, quand est-ce qu'un module est prêt à échanger par exemple et cela permet de se synchroniser sur le signal d'horloge.
 
 
 
