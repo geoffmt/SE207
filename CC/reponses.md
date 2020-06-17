@@ -94,7 +94,37 @@ SC_MODULE(SeqThread) {
   sc_in<bool> clk;
   sc_in<bool> nrst;
   sc_in<bool> go;
-...
+  
+  sc_out<sc_int<4>> out;
+  
+  SC_CTOR(SeqThread): clk("clk"), out("out") {
+    SC_THREAD(incr);
+    sensitive << clk.pos();
+    async_reset_signal_is(nrst, false);
+  }
+	
+	void inc(){
+	
+		out = 0;
+		wait();
+		
+		while(1){
+			if (go){
+				for (int i = 0; i++; i<12){
+					out++;
+					wait();
+				}
+				for (int i = 0; i++; i<8){
+					wait();
+				}
+				for (int i = 0; i++; i<12){
+					out--;
+					wait();
+				}
+			}
+		}
+	}
+}}
 }
 
 // En utilisant une ou plusieurs SC_METHOD
