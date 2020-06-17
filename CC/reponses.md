@@ -136,7 +136,7 @@ SC_MODULE(SeqMethod) {
  	sc_out<sc_int<4>> out;
  	sc_signal<bool> waiting;
  	sc_signal<bool> increment;   //increment = 1 signifie j'incrémente, increment = 0 signifie je décrémente
- 	sc_signal<sc_int<4>> cpt; 
+ 	sc_signal<sc_int<3>> cpt; 
 }
   SC_CTOR(SeqMethod): clk("clk"), out("out") {
     SC_METHOD(incr);
