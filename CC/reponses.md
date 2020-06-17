@@ -215,6 +215,8 @@ SC_MODULE(SeqMethod) {
 
 2. Si un `SC_THREAD` ne doit être exécuté une seule fois, pas besoin donc de mettre une boucle. Cela peut par exemple être utilise pour initialiser des modules.
 
+
+
 ---
 
 ### Question 5
@@ -234,11 +236,18 @@ Pour modéliser ce comportement, nous pouvons utiliser des `sc_fifo`.
 
 ```{.cpp}
 // premier processus
+sc_fifo<1> fifo;
+
 void P1() {
+
+
+
 }
 
 // second processus
 void P2() {
+
+
 }
 ```
 
@@ -254,7 +263,11 @@ Nous voulons un modèle plus précis temporellement et nous ajoutons un signal d
 
 ---
 
-...
+
+
+​	2. On peut utiliser des mutex pour synchroniser deux processus.
+
+
 
 ---
 
