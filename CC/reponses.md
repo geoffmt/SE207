@@ -217,7 +217,7 @@ SC_MODULE(SeqMethod) {
 
    Dès qu'un `wait()` est exécuté, on attend que la simulation notifie un événement et on peut reprendre la simulation.
 
-2. Si un `SC_THREAD` ne doit être exécuté une seule fois, pas besoin donc de mettre une boucle. Cela peut par exemple être utilise pour initialiser des modules.
+2. Si un `SC_THREAD` ne doit être exécuté une seule fois, pas besoin donc de mettre une boucle. Cela peut par exemple être utilisé pour initialiser des modules.
 
 
 
