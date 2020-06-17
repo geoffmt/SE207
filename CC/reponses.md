@@ -134,7 +134,9 @@ SC_MODULE(SeqMethod) {
   sc_in<bool> go;
 .
  	sc_out<sc_int<4>> out;
- 	sc_signal<bool> cpt;
+ 	sc_signal<bool> waiting;
+ 	sc_signal<bool> increment;   //increment = 1 signifie j'incrémente, increment = 0 signifie je décrémente
+ 	sc_signal<sc_int<4>> cpt; 
 }
   SC_CTOR(SeqMethod): clk("clk"), out("out") {
     SC_METHOD(incr);
@@ -144,15 +146,46 @@ SC_MODULE(SeqMethod) {
   
   void incr(){
   
+  
   	if (!nrst){
   		out = 0;
+  		waiting = 0;
+  		increment = 1;
   		cpt = 0;
   		return;
   	}
   
   	if (go){
-  		
   	
+  		// si j'incrémente que je ne dois pas attendre les 7 cycles
+  		if (increment && !waiting){
+  			out++;
+  			if (out == 11){
+  				waiting = 1; // je dois attendre
+  			}
+  		
+  		// si je dois attendre 7 cycles
+  		if (waiting){
+  			cpt ++;
+  			if (cpt == 7){
+  				increment = 0;  // je dois décrémenter
+  				cpt = 0;  			// je remets à 0 le compteur d'attente
+  				waiting = 0; 		// je ne dois plus attendre
+  			}
+  		}
+  		
+  		// si je dois décrémenter et que je ne dois pas attendre les 7 cycles
+  		if (!increment && !waiting){
+  			out --;
+  			if (out == 0){
+  				increment = 1;
+  			}
+  		
+  		}
+  		
+  		
+  		}
+  		
   	
   	
   	
