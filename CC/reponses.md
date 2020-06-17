@@ -23,13 +23,19 @@ Vous devez modifier ce fichier pour y inclure vos réponses puis l'ajouter à vo
 
 ---
 
+
+
 1. On peut utiliser les types suivants : `sc_int<N>`(entier), `sc_uint<N>` (entier non signé) avec N qui désigne le nombre de bits. 
 
-   On peut aussi utiliser les vecteurs : `sc_bv<N>` ou `sc_lv<N>` qui sont respectivemenent les vecteurs de bits et les vecteurs logique.
+   On peut aussi utiliser les vecteurs : `sc_bv<N>` ou `sc_lv<N>` qui sont respectivement les vecteurs de bits et les vecteurs logique.
 
-2. La différence entre `sc_bv<N>`et `sc_int<N>` réside dans le fait que les structures `sc_int`sont surchargées d'opérateurs qui rendent leur utilisation facile.
+2. La différence entre `sc_bv<N>`et `sc_int<N>` réside dans le fait que les types `sc_int`sont surchargées d'opérateurs qui rendent leur utilisation facile.
 
    Donc si on veut faire des calculs avec des entiers il faut mieux utiliser `sc_int `ou `sc_uint` mais pour des opérations bits à bits, `sc_bv` est suffisant.
+
+3. Le type `sc_lv`demande plus de place (deux fois plus en fait) pour être stocké car il contient 4 bits 0, 1, Z, X. 
+
+   Concernant les entiers qui sont d'une taille classique (par exemple 8, 16, 32, 64) , il vaut mieux utiliser les structures de C++ ( par exemple `int`) qui implémentent plus efficacement les opérations arithmétiques.
 
 ---
 
