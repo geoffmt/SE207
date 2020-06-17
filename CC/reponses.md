@@ -23,19 +23,14 @@ Vous devez modifier ce fichier pour y inclure vos réponses puis l'ajouter à vo
 
 ---
 
-*Ceci est un exemple de réponse. **Merci d'effacer ce paragraphe**
+1. On peut utiliser les types suivants : `sc_int<N>`(entier), `sc_uint<N>` (entier non signé) avec N qui désigne le nombre de bits. 
 
-**LAISSEZ les groupes de trois tirets précédés et suivis d'une ligne vide**
+   On peut aussi utiliser les vecteurs : `sc_bv<N>` ou `sc_lv<N>` qui sont respectivemenent les vecteurs de bits et les vecteurs logique.
 
-- `X` ceci est X
-- `Y` ceci est Y
+2. La différence entre `sc_bv<N>`et `sc_int<N>` réside dans le fait que les structures `sc_int`sont surchargées d'opérateurs qui rendent leur utilisation facile.
 
-```{.cpp}
-// ceci est un exemple de code
-int main() {
-   return 0;
-}
-```
+   Donc si on veut faire des calculs avec des entiers il faut mieux utiliser `sc_int `ou `sc_uint` mais pour des opérations bits à bits, `sc_bv` est suffisant.
+
 ---
 
 ### Question 2
@@ -101,7 +96,6 @@ SC_MODULE(SeqMethod) {
    * Que se passe-t-il si cette boucle n'existe pas ?
 1. Donnez un exemple d'utilisation pratique où cette boucle n'est pas nécessaire.
 
-
 ---
 
 ...
@@ -120,7 +114,6 @@ Pour modéliser ce comportement, nous pouvons utiliser des `sc_fifo`.
     * il repasse la main au premier et attend,
 
 **Précisez le type des processus utilisés**
-
 
 ---
 
@@ -143,7 +136,6 @@ Nous voulons un modèle plus précis temporellement et nous ajoutons un signal d
 
 1. Proposez une autre méthode de synchronisation qui garantisse le synchronisme.
     * Quelles implications sur la vitesse de la simulation par rapport à l'utilisation de la `sc_fifo`?
-
 
 ---
 
