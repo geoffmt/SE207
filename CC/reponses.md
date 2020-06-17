@@ -132,9 +132,35 @@ SC_MODULE(SeqMethod) {
   sc_in<bool> clk;
   sc_in<bool> nrst;
   sc_in<bool> go;
-...
+.
+ 	sc_out<sc_int<4>> out;
+ 	sc_signal<bool> cpt;
 }
-
+  SC_CTOR(SeqMethod): clk("clk"), out("out") {
+    SC_METHOD(incr);
+    sensitive << clk.pos();
+    async_reset_signal_is(nrst, false);
+  }
+  
+  void incr(){
+  
+  	if (!nrst){
+  		out = 0;
+  		cpt = 0;
+  		return;
+  	}
+  
+  	if (go){
+  		
+  	
+  	
+  	
+  	
+  	}
+  
+  
+  
+  }
 ```
 
 ---
@@ -148,7 +174,13 @@ SC_MODULE(SeqMethod) {
 
 ---
 
-...
+
+
+1. Un `SC_THREAD` contient souvent une boucle infinie car il n'est exécuté qu'un fois au démarrage. Donc il ne serait lancé qu'une fois et s'arreterait avant la fin de la simulation sans cette boucle infinie.
+
+   Dès qu'un `wait()` est exécuté, on attend que la simulation notifie un événement et on peut reprendre la simulation.
+
+   
 
 ---
 
